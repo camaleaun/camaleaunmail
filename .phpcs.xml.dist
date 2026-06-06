@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset name="Camaleaunmail Coding Standards">
+    <description>Camaleaunmail coding standards.</description>
+
+    <file>camaleaunmail.php</file>
+    <file>includes</file>
+    <exclude-pattern>vendor/</exclude-pattern>
+    <!-- includes/class-spyc.php is auto-generated from vendor code — not subject to WPCS. -->
+    <exclude-pattern>includes/class-spyc.php</exclude-pattern>
+    <exclude-pattern>tests/</exclude-pattern>
+    <exclude-pattern>node_modules/</exclude-pattern>
+
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="8"/>
+    <arg value="sp"/>
+
+    <rule ref="WordPress-Extra">
+        <exclude name="Universal.Files.SeparateFunctionsFromOO"/>
+        <!-- PHPMailer properties are PascalCase by design (external library). -->
+        <exclude name="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase"/>
+    </rule>
+
+    <!-- includes/ uses class-name.php (WP convention) with namespaced classes.
+         InvalidClassFileName is excluded because WPCS does not account for namespaces
+         (e.g. class-rest-api.php contains Camaleaunmail\RestApi, not RestApi). -->
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>includes/</exclude-pattern>
+    </rule>
+    <rule ref="WordPress-Docs"/>
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="camaleaunmail"/>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="PHPCompatibilityWP"/>
+    <config name="minimum_supported_wp_version" value="6.9"/>
+    <config name="testVersion" value="7.4-"/>
+</ruleset>

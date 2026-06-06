@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Camaleaun Mail settings",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference for editor validation."
+    },
+    "transport": {
+      "type": "string",
+      "enum": ["default", "smtp"],
+      "description": "Mail transport to use."
+    },
+    "smtp_host": {
+      "type": "string",
+      "description": "SMTP server hostname."
+    },
+    "smtp_port": {
+      "type": "integer",
+      "description": "SMTP server port (e.g. 25, 587, 465)."
+    },
+    "smtp_encryption": {
+      "type": "string",
+      "enum": ["none", "tls", "ssl"],
+      "description": "Encryption method."
+    },
+    "smtp_auth": {
+      "type": "boolean",
+      "description": "Whether SMTP authentication is enabled."
+    },
+    "smtp_username": {
+      "type": "string",
+      "description": "SMTP username."
+    },
+    "smtp_password": {
+      "type": "string",
+      "description": "SMTP password."
+    },
+    "from_email": {
+      "type": "string",
+      "format": "email",
+      "description": "From address for outgoing mail."
+    },
+    "from_name": {
+      "type": "string",
+      "description": "From name for outgoing mail."
+    }
+  }
+}
