@@ -1,0 +1,21 @@
+name: PR Preview - Build
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+jobs:
+  build:
+    uses: WordPress/action-wp-playground-pr-preview/.github/workflows/preview-build.yml@v3
+    with:
+      artifacts: plugin-zip=dist/camaleaunmail.zip
+      node-version: 'lts/*'
+      build-command: |
+        npm ci && npm run build
+        git submodule update --init --recursive
+        mkdir -p dist
+        git archive HEAD --prefix=camaleaunmail/ | tar xf - -C dist/
+        git -C lib/selfdirectory archive HEAD \
+          --prefix=camaleaunmail/lib/selfdirectory/ \
+          -- class-selfdirectory.php \
+          | tar xf - -C dist/
+        cp -r build/ dist/camaleaunmail/build/
+        (cd dist && zip -r camaleaunmail.zip camaleaunmail)
