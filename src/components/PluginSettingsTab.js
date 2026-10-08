@@ -1,5 +1,15 @@
-import { ToggleControl } from '@wordpress/components';
+import { SelectControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+
+const RETENTION_OPTIONS = [
+	{ value: '7',   label: __( '7 days',   'camaleaunmail' ) },
+	{ value: '14',  label: __( '14 days',  'camaleaunmail' ) },
+	{ value: '30',  label: __( '30 days',  'camaleaunmail' ) },
+	{ value: '60',  label: __( '60 days',  'camaleaunmail' ) },
+	{ value: '90',  label: __( '90 days',  'camaleaunmail' ) },
+	{ value: '365', label: __( '1 year',   'camaleaunmail' ) },
+	{ value: '0',   label: __( 'Forever',  'camaleaunmail' ) },
+];
 
 export default function PluginSettingsTab( { pluginSettings, onChange, exportFormat, onExportFormatChange } ) {
 	const isJson        = exportFormat === 'json';
@@ -8,6 +18,7 @@ export default function PluginSettingsTab( { pluginSettings, onChange, exportFor
 	const indentType    = pluginSettings.json_indent_type ?? 'tab';
 	const indentSize    = pluginSettings.json_indent ?? 4;
 	const isSpace       = indentType === 'space';
+	const loggingEnabled = pluginSettings.logging_enabled !== false;
 
 	return (
 		<div className="cam-tab-body">
@@ -89,12 +100,45 @@ export default function PluginSettingsTab( { pluginSettings, onChange, exportFor
 
 			<div className="cam-section">
 				<h2 className="cam-section__title">
+					{ __( 'Logs', 'camaleaunmail' ) }
+				</h2>
+
+				<div className="cam-field">
+					<ToggleControl
+						label={ __( 'Log emails', 'camaleaunmail' ) }
+						help={ loggingEnabled
+							? __( 'Every email is recorded with its content in the Logs tab.', 'camaleaunmail' )
+							: __( 'Emails are not recorded. Blocking still works when sending is disabled.', 'camaleaunmail' )
+						}
+						checked={ loggingEnabled }
+						onChange={ v => onChange( 'logging_enabled', v ) }
+						__nextHasNoMarginBottom
+					/>
+				</div>
+
+				{ loggingEnabled && (
+					<div className="cam-field">
+						<SelectControl
+							label={ __( 'Keep logs for', 'camaleaunmail' ) }
+							help={ __( 'Older entries are deleted once a day. Emails can contain private data such as password reset links.', 'camaleaunmail' ) }
+							value={ String( pluginSettings.log_retention_days ?? 30 ) }
+							options={ RETENTION_OPTIONS }
+							onChange={ v => onChange( 'log_retention_days', parseInt( v, 10 ) ) }
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+						/>
+					</div>
+				) }
+			</div>
+
+			<div className="cam-section">
+				<h2 className="cam-section__title">
 					{ __( 'Data', 'camaleaunmail' ) }
 				</h2>
 				<ToggleControl
 					label={ __( 'Clear settings on deactivation', 'camaleaunmail' ) }
 					help={ pluginSettings.clear_on_deactivate
-						? __( 'All settings will be permanently deleted when the plugin is deactivated.', 'camaleaunmail' )
+						? __( 'All settings and logs will be permanently deleted when the plugin is deactivated.', 'camaleaunmail' )
 						: __( 'Settings are kept in the database when the plugin is deactivated or updated.', 'camaleaunmail' )
 					}
 					checked={ !! pluginSettings.clear_on_deactivate }

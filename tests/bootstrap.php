@@ -19,7 +19,7 @@ require_once __DIR__ . '/stubs/functions.php';
 
 // WordPress constants.
 defined( 'ABSPATH' ) || define( 'ABSPATH', sys_get_temp_dir() . '/wordpress/' );
-define( 'CAMALEAUNMAIL_VERSION', '0.1.0' );
+define( 'CAMALEAUNMAIL_VERSION', '0.2.0' );
 define( 'CAMALEAUNMAIL_PATH', dirname( __DIR__ ) . '/' );
 define( 'CAMALEAUNMAIL_URL', 'http://example.com/wp-content/plugins/camaleaunmail/' );
 

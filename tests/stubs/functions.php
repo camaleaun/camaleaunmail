@@ -87,3 +87,10 @@ if ( ! class_exists( 'WP_Error' ) ) {
 		public function get_error_message(): string { return $this->message; }
 	}
 }
+
+// Added for the email log (0.2.0).
+function wp_json_encode( $data, int $options = 0, int $depth = 512 ) { return json_encode( $data, $options, $depth ); }
+function wp_basename( string $path, string $suffix = '' ): string { return basename( $path, $suffix ); }
+function wp_parse_url( string $url, int $component = -1 ) { return parse_url( $url, $component ); }
+function network_home_url( string $path = '', $scheme = null ): string { return 'http://www.example.com' . $path; }
+function mysql_to_rfc3339( string $date_string ): string { return str_replace( ' ', 'T', $date_string ); }

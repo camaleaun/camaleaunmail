@@ -32,12 +32,15 @@ class Packages {
 	 */
 	public static function init(): void {
 		Mailer::init();
+		Logs::init();
+		MailLogger::init();
 		RestApi::init();
 		AdminPage::init();
 
 		// WP-CLI command.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			\WP_CLI::add_command( 'camaleaunmail', CliCommand::class );
+			\WP_CLI::add_command( 'camaleaunmail logs', LogsCliCommand::class );
 		}
 	}
 }

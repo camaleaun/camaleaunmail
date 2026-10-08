@@ -453,3 +453,231 @@
 .cam-code-block--warning strong {
 	color: #f9e49a;
 }
+
+/* ── Sending disabled ──────────────────────────────────────────────────────── */
+.cam-sending-badge {
+	display: inline-flex;
+	align-items: center;
+	height: 24px;
+	padding: 0 8px;
+	margin-right: 8px;
+	border-radius: 2px;
+	background: #fcf9e8;
+	color: #8a6d00;
+	font-size: 12px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.cam-sending-notice {
+	margin-top: 16px;
+}
+
+/* ── Logs tab ──────────────────────────────────────────────────────────────── */
+.cam-page__body--wide {
+	max-width: 1100px;
+}
+
+.cam-logs__toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.cam-logs__search {
+	flex: 1 1 240px;
+	min-width: 0;
+}
+
+.cam-logs__toolbar-actions {
+	display: flex;
+	gap: 4px;
+	margin-left: auto;
+}
+
+.cam-logs__table-wrap {
+	position: relative;
+	overflow-x: auto;
+	border: 1px solid #e2e4e7;
+	border-radius: 4px;
+}
+
+.cam-logs__table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+.cam-logs__table th {
+	padding: 10px 12px;
+	text-align: left;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: #646970;
+	background: #f6f7f7;
+	border-bottom: 1px solid #e2e4e7;
+}
+
+.cam-logs__table td {
+	padding: 10px 12px;
+	border-bottom: 1px solid #f0f0f0;
+	vertical-align: middle;
+	color: #1e1e1e;
+}
+
+.cam-logs__table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.cam-logs__table tbody tr:hover td {
+	background: #f9f9f9;
+}
+
+.cam-logs__date {
+	white-space: nowrap;
+	color: #646970;
+}
+
+.cam-logs__to {
+	max-width: 240px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cam-logs__open {
+	appearance: none;
+	background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	color: #3858e9;
+	text-align: left;
+	cursor: pointer;
+}
+
+.cam-logs__open:hover {
+	text-decoration: underline;
+}
+
+.cam-logs__empty {
+	padding: 40px 12px;
+	text-align: center;
+	color: #646970;
+}
+
+.cam-logs__loading {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba( 255, 255, 255, 0.6 );
+}
+
+.cam-logs__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-top: 12px;
+	font-size: 13px;
+	color: #646970;
+}
+
+.cam-logs__pagination {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* ── Status badges ─────────────────────────────────────────────────────────── */
+.cam-status {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 2px;
+	font-size: 12px;
+	font-weight: 500;
+	white-space: nowrap;
+	background: #f0f0f0;
+	color: #3c434a;
+}
+
+.cam-status--sent    { background: #edfaef; color: #00701a; }
+.cam-status--failed  { background: #fcf0f1; color: #b32d2e; }
+.cam-status--blocked { background: #fcf9e8; color: #8a6d00; }
+
+/* ── Log detail modal ──────────────────────────────────────────────────────── */
+.cam-log-modal__status {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.cam-log-modal__error {
+	font-size: 13px;
+	color: #b32d2e;
+}
+
+.cam-log-modal__meta {
+	margin: 0 0 24px;
+	font-size: 13px;
+}
+
+.cam-log-modal__meta-row {
+	display: flex;
+	gap: 12px;
+	padding: 4px 0;
+}
+
+.cam-log-modal__meta dt {
+	flex: 0 0 96px;
+	color: #646970;
+}
+
+.cam-log-modal__meta dd {
+	margin: 0;
+	min-width: 0;
+	overflow-wrap: anywhere;
+	color: #1e1e1e;
+}
+
+.cam-log-modal__frame {
+	display: block;
+	width: 100%;
+	height: 420px;
+	border: 1px solid #e2e4e7;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.cam-log-modal__text {
+	max-height: 420px;
+	margin: 0;
+	padding: 12px 14px;
+	overflow: auto;
+	border: 1px solid #e2e4e7;
+	border-radius: 4px;
+	background: #f6f7f7;
+	font-size: 13px;
+	line-height: 1.6;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.cam-log-modal__text--code {
+	font-family: "SFMono-Regular", Consolas, monospace;
+	font-size: 12px;
+}
+
+.cam-log-modal__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 24px;
+}
