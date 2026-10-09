@@ -22,6 +22,7 @@
     "grunt-wp-readme-to-markdown": "^2.1.0"
   },
   "dependencies": {
+    "@wordpress/date": "^5.57.0",
     "@wordpress/icons": "^13.3.0"
   }
 }

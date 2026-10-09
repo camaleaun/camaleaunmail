@@ -1,0 +1,58 @@
+name: Language
+
+# Language packs for SelfDirectory: camaleaunmail.<version>-<locale>.zip
+# on the <version> release, built from the language/<version> orphan branch
+# (made by `wp --require=bin/release.php cmail language`, which also dispatches
+# this workflow: a push to an orphan branch has no .github/ to run). Each pack
+# holds the .po, the compiled .mo and the JS catalog (.json) of its locale.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag to attach the language packs to (e.g. 0.4.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  language:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout language branch
+        uses: actions/checkout@v4
+        with:
+          ref: language/${{ github.event.inputs.version }}
+
+      - name: Install gettext
+        run: sudo apt-get install -y gettext
+
+      - name: Compile and package language zips
+        id: build
+        run: |
+          tag="${{ github.event.inputs.version }}"
+          mkdir -p /tmp/langs
+          files=""
+          for po in camaleaunmail-*.po; do
+            [ -f "$po" ] || continue
+            locale=$(basename "$po" .po | sed 's/^camaleaunmail-//')
+            work="/tmp/langs/${locale}"
+            mkdir -p "$work"
+            cp "$po" "$work/"
+            msgfmt "$po" -o "$work/camaleaunmail-${locale}.mo"
+            cp camaleaunmail-${locale}-*.json "$work/" 2>/dev/null || true
+            zip="/tmp/langs/camaleaunmail.${tag}-${locale}.zip"
+            (cd "$work" && zip -q "$zip" ./*)
+            files="${files:+$files,}$zip"
+          done
+          echo "paths=$files" >> "$GITHUB_OUTPUT"
+          [ -n "$files" ] && echo "has_files=true" >> "$GITHUB_OUTPUT" || echo "has_files=false" >> "$GITHUB_OUTPUT"
+
+      - name: Upload language zips to release
+        if: steps.build.outputs.has_files == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          files: ${{ steps.build.outputs.paths }}
+          generate_release_notes: false

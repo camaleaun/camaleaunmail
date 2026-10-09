@@ -115,6 +115,9 @@ class AdminPage {
 			);
 		}
 
+		// Translations come from the language pack (wp-content/languages/plugins).
+		wp_set_script_translations( 'camaleaunmail-settings', 'camaleaunmail' );
+
 		wp_localize_script(
 			'camaleaunmail-settings',
 			'camaleaunMailData',

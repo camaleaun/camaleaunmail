@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { dateI18n, getSettings } from '@wordpress/date';
 
 export const STATUS_LABEL = {
 	pending:         __( 'Pending',   'camaleaunmail' ),
@@ -21,24 +22,23 @@ export function parseDate( iso ) {
 	return new Date( /[zZ]|[+-]\d\d:?\d\d$/.test( iso ) ? iso : iso + 'Z' );
 }
 
+// Date and time in the formats set in Settings > General, in the site's time zone.
 export function formatDate( iso ) {
 	if ( ! iso ) return '';
-	return parseDate( iso ).toLocaleString( undefined, { dateStyle: 'medium', timeStyle: 'short' } );
+	const { formats } = getSettings();
+	return dateI18n( formats.datetime, parseDate( iso ) );
 }
 
-// List time: the hour for today's emails, the date otherwise.
+// List time: the hour for today's emails, the day and month otherwise.
 export function formatListDate( iso ) {
 	if ( ! iso ) return '';
-	const date = parseDate( iso );
-	const now  = new Date();
-	if ( date.toDateString() === now.toDateString() ) {
-		return date.toLocaleTimeString( undefined, { timeStyle: 'short' } );
+	const { formats } = getSettings();
+	const date        = parseDate( iso );
+	const now         = new Date();
+	if ( dateI18n( 'Y-m-d', date ) === dateI18n( 'Y-m-d', now ) ) {
+		return dateI18n( formats.time, date );
 	}
-	return date.toLocaleDateString( undefined, {
-		month: 'short',
-		day:   'numeric',
-		...( date.getFullYear() !== now.getFullYear() && { year: 'numeric' } ),
-	} );
+	return dateI18n( dateI18n( 'Y', date ) === dateI18n( 'Y', now ) ? 'j M' : 'j M Y', date );
 }
 
 export function formatSender( log ) {

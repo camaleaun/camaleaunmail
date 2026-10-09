@@ -1,0 +1,701 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Camaleaunmail 0.3.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/camaleaunmail\n"
+"Last-Translator: Gilberto Tavares <camaleaun@gmail.com>\n"
+"Language-Team: Portuguese (Brazil)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-09T02:10:40+00:00\n"
+"PO-Revision-Date: 2026-10-09T02:10:40+00:00\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: camaleaunmail\n"
+
+#. Plugin Name of the plugin
+#: camaleaunmail.php
+msgid "Camaleaunmail"
+msgstr "Camaleaunmail"
+
+#. Plugin URI of the plugin
+#: camaleaunmail.php
+msgid "https://github.com/camaleaun/camaleaunmail"
+msgstr "https://github.com/camaleaun/camaleaunmail"
+
+#. Description of the plugin
+#: camaleaunmail.php
+msgid ""
+"Sends WordPress email through SMTP, logs every email and blocks sending on "
+"local sites."
+msgstr ""
+"Envia os e-mails do WordPress por SMTP, registra todos os e-mails e bloqueia "
+"o envio em sites locais."
+
+#. Author of the plugin
+#: camaleaunmail.php
+msgid "Gilberto Tavares"
+msgstr "Gilberto Tavares"
+
+#. Author URI of the plugin
+#: camaleaunmail.php
+msgid "https://github.com/camaleaun"
+msgstr "https://github.com/camaleaun"
+
+#: includes/class-admin-page.php:47 includes/class-admin-page.php:48
+msgid "Mail"
+msgstr "E-mail"
+
+#: includes/class-rest-api.php:194
+msgid "You do not have permission to manage mail settings."
+msgstr "Você não tem permissão para gerenciar as configurações de e-mail."
+
+#: includes/class-rest-api.php:235 includes/class-rest-api.php:344
+msgid "Invalid request body."
+msgstr "Corpo da requisição inválido."
+
+#: includes/class-rest-api.php:266
+msgid "Invalid recipient email address."
+msgstr "Endereço de e-mail do destinatário inválido."
+
+#: includes/class-rest-api.php:275
+msgid "Crimson Agility Mail — test email"
+msgstr "Crimson Agility Mail — e-mail de teste"
+
+#: includes/class-rest-api.php:277
+msgid "This is a test email sent from the Crimson Agility Mail plugin."
+msgstr "Este é um e-mail de teste enviado pelo plugin Crimson Agility Mail."
+
+#. translators: %s: PHPMailer error message
+#: includes/class-rest-api.php:301
+#, php-format
+msgid "Test email could not be sent. %s"
+msgstr "Não foi possível enviar o e-mail de teste. %s"
+
+#: includes/class-rest-api.php:427
+msgid "Could not parse JSON."
+msgstr "Não foi possível ler o JSON."
+
+#: includes/class-rest-api.php:436
+msgid "Could not parse YAML."
+msgstr "Não foi possível ler o YAML."
+
+#: includes/class-rest-api.php:439
+msgid "No YAML or JSON content provided."
+msgstr "Nenhum conteúdo YAML ou JSON enviado."
+
+#. translators: %s: PHPMailer error message
+#: includes/class-rest-api.php:541
+#, php-format
+msgid "Email could not be sent. %s"
+msgstr "Não foi possível enviar o e-mail. %s"
+
+#: includes/class-rest-api.php:564
+msgid "Log entry not found."
+msgstr "Registro de log não encontrado."
+
+#: build/index.js:1
+msgid "Auto save"
+msgstr "Salvamento automático"
+
+#: build/index.js:1
+msgid "Saving…"
+msgstr "Salvando…"
+
+#: build/index.js:1
+msgid "Saved"
+msgstr "Salvo"
+
+#: build/index.js:1
+msgid "Error"
+msgstr "Erro"
+
+#: build/index.js:1
+msgid "Mail Settings"
+msgstr "Configurações de e-mail"
+
+#: build/index.js:1
+msgid "Plugin Settings"
+msgstr "Configurações do plugin"
+
+#: build/index.js:1
+msgid "Sending disabled"
+msgstr "Envio desativado"
+
+#: build/index.js:1
+msgid "Import failed."
+msgstr "Falha na importação."
+
+#: build/index.js:1 build/index.js:3
+msgid "Export"
+msgstr "Exportar"
+
+#: build/index.js:1
+msgid "Import"
+msgstr "Importar"
+
+#: build/index.js:1
+msgid "Plugin settings"
+msgstr "Configurações do plugin"
+
+#: build/index.js:1
+msgid "None — port 25"
+msgstr "Nenhuma — porta 25"
+
+#: build/index.js:1
+msgid "TLS / STARTTLS — port 587"
+msgstr "TLS / STARTTLS — porta 587"
+
+#: build/index.js:1
+msgid "SSL / SMTPS — port 465"
+msgstr "SSL / SMTPS — porta 465"
+
+#: build/index.js:1
+msgid "SMTP configuration"
+msgstr "Configuração SMTP"
+
+#: build/index.js:1
+msgid ""
+"Port and encryption are mismatched. Port 465 → SSL, port 587 → TLS, port 25 "
+"→ None. Auto-corrected on send."
+msgstr ""
+"Porta e criptografia não combinam. Porta 465 → SSL, porta 587 → TLS, porta "
+"25 → Nenhuma. Corrigido automaticamente no envio."
+
+#: build/index.js:1
+msgid "Host"
+msgstr "Servidor"
+
+#: build/index.js:1
+msgid "Encryption"
+msgstr "Criptografia"
+
+#: build/index.js:1
+msgid "Port"
+msgstr "Porta"
+
+#: build/index.js:1
+msgid "Authentication"
+msgstr "Autenticação"
+
+#: build/index.js:1
+msgid "Username"
+msgstr "Usuário"
+
+#: build/index.js:1
+msgid "Password"
+msgstr "Senha"
+
+#: build/index.js:1
+msgid "Password saved. Leave blank to keep it."
+msgstr "Senha salva. Deixe em branco para mantê-la."
+
+#: build/index.js:1
+msgid "Disabled"
+msgstr "Desativado"
+
+#: build/index.js:1
+msgid ""
+"Uses PHP's default mail() function. Not recommended for production — emails "
+"often land in spam."
+msgstr ""
+"Usa a função mail() padrão do PHP. Não recomendado em produção — os e-mails "
+"costumam cair no spam."
+
+#: build/index.js:1
+msgid "SMTP"
+msgstr "SMTP"
+
+#: build/index.js:1
+msgid "Send through any SMTP server — your host, Mailgun, SendGrid, etc."
+msgstr ""
+"Envia por qualquer servidor SMTP — sua hospedagem, Mailgun, SendGrid etc."
+
+#: build/index.js:1
+msgid "Mail transport"
+msgstr "Transporte de e-mail"
+
+#: build/index.js:1
+msgid "Choose how WordPress sends email."
+msgstr "Escolha como o WordPress envia e-mails."
+
+#: build/index.js:1
+msgid "Sending"
+msgstr "Envio"
+
+#: build/index.js:1
+msgid "Disable sending (log only)"
+msgstr "Desativar envio (só registrar no log)"
+
+#: build/index.js:1
+msgid ""
+"Forced on by the CAMALEAUNMAIL_DISABLE_SENDING constant in wp-config.php."
+msgstr "Ativado pela constante CAMALEAUNMAIL_DISABLE_SENDING no wp-config.php."
+
+#: build/index.js:1
+msgid ""
+"No email leaves this site. Every email is recorded in the Logs tab instead. "
+"Use it on staging and local copies."
+msgstr ""
+"Nenhum e-mail sai deste site. Todos ficam registrados na aba Logs. Use em "
+"cópias de homologação e locais."
+
+#: build/index.js:1
+msgid "Disable on local sites"
+msgstr "Desativar em sites locais"
+
+#: build/index.js:1
+msgid "This site is local, so no email is sent while this is on."
+msgstr ""
+"Este site é local, então nenhum e-mail é enviado enquanto esta opção estiver "
+"ativa."
+
+#: build/index.js:1
+msgid ""
+"Addresses on localhost, 127.0.0.1, .local and .test, and sites with the "
+"\"local\" environment type."
+msgstr ""
+"Endereços em localhost, 127.0.0.1, .local e .test, e sites com o tipo de "
+"ambiente \"local\"."
+
+#: build/index.js:1
+msgid ""
+"Sending is disabled. WordPress reports emails as sent, but they are only "
+"recorded in Logs."
+msgstr ""
+"O envio está desativado. O WordPress informa os e-mails como enviados, mas "
+"eles só ficam registrados em Logs."
+
+#: build/index.js:1
+msgid ""
+"Sending is disabled on this local site. WordPress reports emails as sent, "
+"but they are only recorded in Logs."
+msgstr ""
+"O envio está desativado neste site local. O WordPress informa os e-mails "
+"como enviados, mas eles só ficam registrados em Logs."
+
+#: build/index.js:1
+msgid ""
+"Name and email address that appear in the \"From\" field of every outgoing "
+"email, regardless of which transport is active."
+msgstr ""
+"Nome e endereço de e-mail que aparecem no campo \"De\" de todos os e-mails "
+"enviados, qualquer que seja o transporte ativo."
+
+#: build/index.js:1
+msgid "From email"
+msgstr "E-mail do remetente"
+
+#: build/index.js:1
+msgid "From name"
+msgstr "Nome do remetente"
+
+#: build/index.js:1
+msgid "My Site"
+msgstr "Meu site"
+
+#: build/index.js:1
+msgid "Sending is disabled: the test email will only be recorded in Logs."
+msgstr "O envio está desativado: o e-mail de teste só será registrado em Logs."
+
+#: build/index.js:1
+msgid ""
+"No transport configured. Select SMTP or Google Mail in the Transport tab "
+"first."
+msgstr ""
+"Nenhum transporte configurado. Escolha SMTP ou Google Mail na aba Transporte "
+"primeiro."
+
+#. translators: %s: transport label
+#: build/index.js:2
+msgid "Send a test email using the current %s configuration."
+msgstr "Envie um e-mail de teste com a configuração atual de %s."
+
+#: build/index.js:2
+msgid "Recipient"
+msgstr "Destinatário"
+
+#: build/index.js:2
+msgid "Subject"
+msgstr "Assunto"
+
+#: build/index.js:2
+msgid "Body"
+msgstr "Corpo"
+
+#: build/index.js:2 build/index.js:3
+msgid "Plain text"
+msgstr "Texto simples"
+
+#: build/index.js:2 build/index.js:3
+msgid "HTML"
+msgstr "HTML"
+
+#: build/index.js:2 build/index.js:3
+msgid "Not sent: sending is disabled. Recorded in Logs."
+msgstr "Não enviado: o envio está desativado. Registrado em Logs."
+
+#. translators: %s: recipient email
+#: build/index.js:3
+msgid "Test email sent successfully to %s."
+msgstr "E-mail de teste enviado para %s."
+
+#: build/index.js:3
+msgid "Could not send the test email. Check your settings and try again."
+msgstr ""
+"Não foi possível enviar o e-mail de teste. Confira as configurações e tente "
+"de novo."
+
+#: build/index.js:3
+msgid "Sending…"
+msgstr "Enviando…"
+
+#: build/index.js:3
+msgid "Send test email"
+msgstr "Enviar e-mail de teste"
+
+#: build/index.js:3
+msgid "7 days"
+msgstr "7 dias"
+
+#: build/index.js:3
+msgid "14 days"
+msgstr "14 dias"
+
+#: build/index.js:3
+msgid "30 days"
+msgstr "30 dias"
+
+#: build/index.js:3
+msgid "60 days"
+msgstr "60 dias"
+
+#: build/index.js:3
+msgid "90 days"
+msgstr "90 dias"
+
+#: build/index.js:3
+msgid "1 year"
+msgstr "1 ano"
+
+#: build/index.js:3
+msgid "Forever"
+msgstr "Para sempre"
+
+#: build/index.js:3
+msgid "Plugin-level options that control behaviour outside of mail transport."
+msgstr ""
+"Opções do plugin que controlam o comportamento além do transporte de e-mail."
+
+#: build/index.js:3
+msgid "Include schema reference"
+msgstr "Incluir referência ao schema"
+
+#: build/index.js:3
+msgid "Disable to omit the schema reference from the exported file."
+msgstr "Desative para omitir a referência ao schema no arquivo exportado."
+
+#: build/index.js:3
+msgid "Export in JSON format"
+msgstr "Exportar em JSON"
+
+#: build/index.js:3
+msgid "Export format changed from YAML to JSON."
+msgstr "Formato de exportação alterado de YAML para JSON."
+
+#: build/index.js:3
+msgid "Default is YAML. Enable to export as JSON instead."
+msgstr "O padrão é YAML. Ative para exportar em JSON."
+
+#: build/index.js:3
+msgid "Pretty-print JSON"
+msgstr "JSON formatado"
+
+#: build/index.js:3
+msgid "Output is indented and human-readable."
+msgstr "A saída fica indentada e fácil de ler."
+
+#: build/index.js:3
+msgid "Output is minified — smaller file, harder to read."
+msgstr "A saída fica minificada — arquivo menor, mais difícil de ler."
+
+#: build/index.js:3
+msgid "Use tabs for indentation"
+msgstr "Usar tabulação na indentação"
+
+#: build/index.js:3
+msgid "Disable to switch indentation from tabs to spaces."
+msgstr "Desative para trocar a indentação de tabulação para espaços."
+
+#: build/index.js:3
+msgid "4-space indent"
+msgstr "Indentação de 4 espaços"
+
+#: build/index.js:3
+msgid "Disable to switch indent size from 4 to 2 spaces."
+msgstr "Desative para trocar a indentação de 4 para 2 espaços."
+
+#: build/index.js:3 build/index.js:4
+msgid "Logs"
+msgstr "Logs"
+
+#: build/index.js:3
+msgid "Log emails"
+msgstr "Registrar e-mails"
+
+#: build/index.js:3
+msgid "Every email is recorded with its content in the Logs tab."
+msgstr "Todos os e-mails ficam registrados, com o conteúdo, na aba Logs."
+
+#: build/index.js:3
+msgid "Emails are not recorded. Blocking still works when sending is disabled."
+msgstr ""
+"Os e-mails não são registrados. O bloqueio continua funcionando quando o "
+"envio está desativado."
+
+#: build/index.js:3
+msgid "Keep logs for"
+msgstr "Manter logs por"
+
+#: build/index.js:3
+msgid ""
+"Older entries are deleted once a day. Emails can contain private data such "
+"as password reset links."
+msgstr ""
+"Os registros mais antigos são apagados uma vez por dia. E-mails podem ter "
+"dados privados, como links de redefinição de senha."
+
+#: build/index.js:3
+msgid "Data"
+msgstr "Dados"
+
+#: build/index.js:3
+msgid "Clear settings on deactivation"
+msgstr "Apagar configurações ao desativar"
+
+#: build/index.js:3
+msgid ""
+"All settings and logs will be permanently deleted when the plugin is "
+"deactivated."
+msgstr ""
+"Todas as configurações e logs serão apagados de vez quando o plugin for "
+"desativado."
+
+#: build/index.js:3
+msgid ""
+"Settings are kept in the database when the plugin is deactivated or updated."
+msgstr ""
+"As configurações continuam no banco de dados quando o plugin é desativado ou "
+"atualizado."
+
+#: build/index.js:3
+msgid "Pending"
+msgstr "Pendente"
+
+#: build/index.js:3
+msgid "Sent"
+msgstr "Enviado"
+
+#: build/index.js:3
+msgid "Failed"
+msgstr "Falhou"
+
+#: build/index.js:3
+msgid "Blocked"
+msgstr "Bloqueado"
+
+#: build/index.js:3
+msgid "Intercepted"
+msgstr "Interceptado"
+
+#: build/index.js:3
+msgid "Could not load the email."
+msgstr "Não foi possível carregar o e-mail."
+
+#: build/index.js:3
+msgid "From:"
+msgstr "De:"
+
+#: build/index.js:3
+msgid "To:"
+msgstr "Para:"
+
+#: build/index.js:3
+msgid "Cc:"
+msgstr "Cc:"
+
+#: build/index.js:3
+msgid "Bcc:"
+msgstr "Cco:"
+
+#: build/index.js:3
+msgid "Sent:"
+msgstr "Enviado:"
+
+#: build/index.js:3
+msgid "Transport:"
+msgstr "Transporte:"
+
+#: build/index.js:3
+msgid "Attachments:"
+msgstr "Anexos:"
+
+#: build/index.js:3
+msgid "(no subject)"
+msgstr "(sem assunto)"
+
+#: build/index.js:3
+msgid "Could not delete the email."
+msgstr "Não foi possível excluir o e-mail."
+
+#: build/index.js:3
+msgid "Delete"
+msgstr "Excluir"
+
+#: build/index.js:3
+msgid "Email sent again."
+msgstr "E-mail reenviado."
+
+#: build/index.js:3
+msgid "Could not resend the email."
+msgstr "Não foi possível reenviar o e-mail."
+
+#: build/index.js:3
+msgid "Resend"
+msgstr "Reenviar"
+
+#: build/index.js:3
+msgid "Source"
+msgstr "Código-fonte"
+
+#: build/index.js:3
+msgid "Headers"
+msgstr "Cabeçalhos"
+
+#: build/index.js:3
+msgid "Email preview"
+msgstr "Pré-visualização do e-mail"
+
+#: build/index.js:3
+msgid "(no headers)"
+msgstr "(sem cabeçalhos)"
+
+#: build/index.js:3
+msgid "All statuses"
+msgstr "Todos os status"
+
+#: build/index.js:3
+msgid "Could not load logs."
+msgstr "Não foi possível carregar os logs."
+
+#: build/index.js:3
+msgid ""
+"Logging is turned off in the plugin settings. New emails are not being "
+"recorded."
+msgstr ""
+"O registro está desligado nas configurações do plugin. Novos e-mails não "
+"estão sendo registrados."
+
+#: build/index.js:3
+msgid "Search logs"
+msgstr "Pesquisar logs"
+
+#: build/index.js:3
+msgid "Search recipient or subject"
+msgstr "Pesquisar destinatário ou assunto"
+
+#: build/index.js:3
+msgid "Status"
+msgstr "Status"
+
+#: build/index.js:3
+msgid "Refresh"
+msgstr "Atualizar"
+
+#: build/index.js:3 build/index.js:4
+msgid "Clear logs"
+msgstr "Limpar logs"
+
+#: build/index.js:3
+msgid "Email"
+msgstr "E-mail"
+
+#: build/index.js:3
+msgid "Logged emails"
+msgstr "E-mails registrados"
+
+#: build/index.js:3
+msgid "No emails match these filters."
+msgstr "Nenhum e-mail corresponde a esses filtros."
+
+#: build/index.js:3
+msgid "No emails logged yet."
+msgstr "Nenhum e-mail registrado ainda."
+
+#: build/index.js:3
+msgid "Previous"
+msgstr "Anterior"
+
+#. translators: 1: current page, 2: total pages
+#: build/index.js:4
+msgid "%1$d of %2$d"
+msgstr "%1$d de %2$d"
+
+#: build/index.js:4
+msgid "Next"
+msgstr "Próxima"
+
+#: build/index.js:4
+msgid "Select an email to read it."
+msgstr "Selecione um e-mail para ler."
+
+#: build/index.js:4
+msgid "Logs cleared."
+msgstr "Logs apagados."
+
+#: build/index.js:4
+msgid "Could not clear logs."
+msgstr "Não foi possível limpar os logs."
+
+#: build/index.js:4
+msgid "Delete every logged email? This cannot be undone."
+msgstr "Excluir todos os e-mails registrados? Isso não pode ser desfeito."
+
+#: build/index.js:4
+msgid "Transport"
+msgstr "Transporte"
+
+#: build/index.js:4
+msgid "Sender"
+msgstr "Remetente"
+
+#: build/index.js:4
+msgid "Test"
+msgstr "Teste"
+
+#: build/index.js:4
+msgid "Could not load settings."
+msgstr "Não foi possível carregar as configurações."
+
+#: build/index.js:4
+msgid "Could not save settings."
+msgstr "Não foi possível salvar as configurações."
+
+#: build/index.js:4
+msgid "Could not save plugin settings."
+msgstr "Não foi possível salvar as configurações do plugin."
+
+#: build/index.js:4
+msgid "Settings imported."
+msgstr "Configurações importadas."
+
+#: build/index.js:4
+msgid "Import succeeded but could not reload settings."
+msgstr ""
+"A importação deu certo, mas não foi possível recarregar as configurações."
+
+#: build/index.js:3
+msgctxt "heading of the list of emails"
+msgid "Sent"
+msgstr "Enviados"
