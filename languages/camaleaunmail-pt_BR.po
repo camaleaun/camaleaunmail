@@ -26,12 +26,8 @@ msgstr "https://github.com/camaleaun/camaleaunmail"
 
 #. Description of the plugin
 #: camaleaunmail.php
-msgid ""
-"Sends WordPress email through SMTP, logs every email and blocks sending on "
-"local sites."
-msgstr ""
-"Envia os e-mails do WordPress por SMTP, registra todos os e-mails e bloqueia "
-"o envio em sites locais."
+msgid "Sends WordPress email through SMTP, logs every email and blocks sending on local sites."
+msgstr "Envia os e-mails do WordPress por SMTP, registra todos os e-mails e bloqueia o envio em sites locais."
 
 #. Author of the plugin
 #: camaleaunmail.php
@@ -43,7 +39,8 @@ msgstr "Gilberto Tavares"
 msgid "https://github.com/camaleaun"
 msgstr "https://github.com/camaleaun"
 
-#: includes/class-admin-page.php:47 includes/class-admin-page.php:48
+#: includes/class-admin-page.php:47
+#: includes/class-admin-page.php:48
 msgid "Mail"
 msgstr "E-mail"
 
@@ -51,7 +48,8 @@ msgstr "E-mail"
 msgid "You do not have permission to manage mail settings."
 msgstr "Você não tem permissão para gerenciar as configurações de e-mail."
 
-#: includes/class-rest-api.php:235 includes/class-rest-api.php:344
+#: includes/class-rest-api.php:235
+#: includes/class-rest-api.php:344
 msgid "Invalid request body."
 msgstr "Corpo da requisição inválido."
 
@@ -127,7 +125,8 @@ msgstr "Envio desativado"
 msgid "Import failed."
 msgstr "Falha na importação."
 
-#: build/index.js:1 build/index.js:3
+#: build/index.js:1
+#: build/index.js:3
 msgid "Export"
 msgstr "Exportar"
 
@@ -156,12 +155,8 @@ msgid "SMTP configuration"
 msgstr "Configuração SMTP"
 
 #: build/index.js:1
-msgid ""
-"Port and encryption are mismatched. Port 465 → SSL, port 587 → TLS, port 25 "
-"→ None. Auto-corrected on send."
-msgstr ""
-"Porta e criptografia não combinam. Porta 465 → SSL, porta 587 → TLS, porta "
-"25 → Nenhuma. Corrigido automaticamente no envio."
+msgid "Port and encryption are mismatched. Port 465 → SSL, port 587 → TLS, port 25 → None. Auto-corrected on send."
+msgstr "Porta e criptografia não combinam. Porta 465 → SSL, porta 587 → TLS, porta 25 → Nenhuma. Corrigido automaticamente no envio."
 
 #: build/index.js:1
 msgid "Host"
@@ -196,12 +191,8 @@ msgid "Disabled"
 msgstr "Desativado"
 
 #: build/index.js:1
-msgid ""
-"Uses PHP's default mail() function. Not recommended for production — emails "
-"often land in spam."
-msgstr ""
-"Usa a função mail() padrão do PHP. Não recomendado em produção — os e-mails "
-"costumam cair no spam."
+msgid "Uses PHP's default mail() function. Not recommended for production — emails often land in spam."
+msgstr "Usa a função mail() padrão do PHP. Não recomendado em produção — os e-mails costumam cair no spam."
 
 #: build/index.js:1
 msgid "SMTP"
@@ -209,8 +200,7 @@ msgstr "SMTP"
 
 #: build/index.js:1
 msgid "Send through any SMTP server — your host, Mailgun, SendGrid, etc."
-msgstr ""
-"Envia por qualquer servidor SMTP — sua hospedagem, Mailgun, SendGrid etc."
+msgstr "Envia por qualquer servidor SMTP — sua hospedagem, Mailgun, SendGrid etc."
 
 #: build/index.js:1
 msgid "Mail transport"
@@ -229,17 +219,12 @@ msgid "Disable sending (log only)"
 msgstr "Desativar envio (só registrar no log)"
 
 #: build/index.js:1
-msgid ""
-"Forced on by the CAMALEAUNMAIL_DISABLE_SENDING constant in wp-config.php."
+msgid "Forced on by the CAMALEAUNMAIL_DISABLE_SENDING constant in wp-config.php."
 msgstr "Ativado pela constante CAMALEAUNMAIL_DISABLE_SENDING no wp-config.php."
 
 #: build/index.js:1
-msgid ""
-"No email leaves this site. Every email is recorded in the Logs tab instead. "
-"Use it on staging and local copies."
-msgstr ""
-"Nenhum e-mail sai deste site. Todos ficam registrados na aba Logs. Use em "
-"cópias de homologação e locais."
+msgid "No email leaves this site. Every email is recorded in the Logs tab instead. Use it on staging and local copies."
+msgstr "Nenhum e-mail sai deste site. Todos ficam registrados na aba Logs. Use em cópias de homologação e locais."
 
 #: build/index.js:1
 msgid "Disable on local sites"
@@ -247,41 +232,23 @@ msgstr "Desativar em sites locais"
 
 #: build/index.js:1
 msgid "This site is local, so no email is sent while this is on."
-msgstr ""
-"Este site é local, então nenhum e-mail é enviado enquanto esta opção estiver "
-"ativa."
+msgstr "Este site é local, então nenhum e-mail é enviado enquanto esta opção estiver ativa."
 
 #: build/index.js:1
-msgid ""
-"Addresses on localhost, 127.0.0.1, .local and .test, and sites with the "
-"\"local\" environment type."
-msgstr ""
-"Endereços em localhost, 127.0.0.1, .local e .test, e sites com o tipo de "
-"ambiente \"local\"."
+msgid "Addresses on localhost, 127.0.0.1, .local and .test, and sites with the \"local\" environment type."
+msgstr "Endereços em localhost, 127.0.0.1, .local e .test, e sites com o tipo de ambiente \"local\"."
 
 #: build/index.js:1
-msgid ""
-"Sending is disabled. WordPress reports emails as sent, but they are only "
-"recorded in Logs."
-msgstr ""
-"O envio está desativado. O WordPress informa os e-mails como enviados, mas "
-"eles só ficam registrados em Logs."
+msgid "Sending is disabled. WordPress reports emails as sent, but they are only recorded in Logs."
+msgstr "O envio está desativado. O WordPress informa os e-mails como enviados, mas eles só ficam registrados em Logs."
 
 #: build/index.js:1
-msgid ""
-"Sending is disabled on this local site. WordPress reports emails as sent, "
-"but they are only recorded in Logs."
-msgstr ""
-"O envio está desativado neste site local. O WordPress informa os e-mails "
-"como enviados, mas eles só ficam registrados em Logs."
+msgid "Sending is disabled on this local site. WordPress reports emails as sent, but they are only recorded in Logs."
+msgstr "O envio está desativado neste site local. O WordPress informa os e-mails como enviados, mas eles só ficam registrados em Logs."
 
 #: build/index.js:1
-msgid ""
-"Name and email address that appear in the \"From\" field of every outgoing "
-"email, regardless of which transport is active."
-msgstr ""
-"Nome e endereço de e-mail que aparecem no campo \"De\" de todos os e-mails "
-"enviados, qualquer que seja o transporte ativo."
+msgid "Name and email address that appear in the \"From\" field of every outgoing email, regardless of which transport is active."
+msgstr "Nome e endereço de e-mail que aparecem no campo \"De\" de todos os e-mails enviados, qualquer que seja o transporte ativo."
 
 #: build/index.js:1
 msgid "From email"
@@ -300,15 +267,12 @@ msgid "Sending is disabled: the test email will only be recorded in Logs."
 msgstr "O envio está desativado: o e-mail de teste só será registrado em Logs."
 
 #: build/index.js:1
-msgid ""
-"No transport configured. Select SMTP or Google Mail in the Transport tab "
-"first."
-msgstr ""
-"Nenhum transporte configurado. Escolha SMTP ou Google Mail na aba Transporte "
-"primeiro."
+msgid "No transport configured. Select SMTP or Google Mail in the Transport tab first."
+msgstr "Nenhum transporte configurado. Escolha SMTP ou Google Mail na aba Transporte primeiro."
 
 #. translators: %s: transport label
 #: build/index.js:2
+#, js-format
 msgid "Send a test email using the current %s configuration."
 msgstr "Envie um e-mail de teste com a configuração atual de %s."
 
@@ -324,28 +288,30 @@ msgstr "Assunto"
 msgid "Body"
 msgstr "Corpo"
 
-#: build/index.js:2 build/index.js:3
+#: build/index.js:2
+#: build/index.js:3
 msgid "Plain text"
 msgstr "Texto simples"
 
-#: build/index.js:2 build/index.js:3
+#: build/index.js:2
+#: build/index.js:3
 msgid "HTML"
 msgstr "HTML"
 
-#: build/index.js:2 build/index.js:3
+#: build/index.js:2
+#: build/index.js:3
 msgid "Not sent: sending is disabled. Recorded in Logs."
 msgstr "Não enviado: o envio está desativado. Registrado em Logs."
 
 #. translators: %s: recipient email
 #: build/index.js:3
+#, js-format
 msgid "Test email sent successfully to %s."
 msgstr "E-mail de teste enviado para %s."
 
 #: build/index.js:3
 msgid "Could not send the test email. Check your settings and try again."
-msgstr ""
-"Não foi possível enviar o e-mail de teste. Confira as configurações e tente "
-"de novo."
+msgstr "Não foi possível enviar o e-mail de teste. Confira as configurações e tente de novo."
 
 #: build/index.js:3
 msgid "Sending…"
@@ -385,8 +351,7 @@ msgstr "Para sempre"
 
 #: build/index.js:3
 msgid "Plugin-level options that control behaviour outside of mail transport."
-msgstr ""
-"Opções do plugin que controlam o comportamento além do transporte de e-mail."
+msgstr "Opções do plugin que controlam o comportamento além do transporte de e-mail."
 
 #: build/index.js:3
 msgid "Include schema reference"
@@ -436,7 +401,8 @@ msgstr "Indentação de 4 espaços"
 msgid "Disable to switch indent size from 4 to 2 spaces."
 msgstr "Desative para trocar a indentação de 4 para 2 espaços."
 
-#: build/index.js:3 build/index.js:4
+#: build/index.js:3
+#: build/index.js:4
 msgid "Logs"
 msgstr "Logs"
 
@@ -450,21 +416,15 @@ msgstr "Todos os e-mails ficam registrados, com o conteúdo, na aba Logs."
 
 #: build/index.js:3
 msgid "Emails are not recorded. Blocking still works when sending is disabled."
-msgstr ""
-"Os e-mails não são registrados. O bloqueio continua funcionando quando o "
-"envio está desativado."
+msgstr "Os e-mails não são registrados. O bloqueio continua funcionando quando o envio está desativado."
 
 #: build/index.js:3
 msgid "Keep logs for"
 msgstr "Manter logs por"
 
 #: build/index.js:3
-msgid ""
-"Older entries are deleted once a day. Emails can contain private data such "
-"as password reset links."
-msgstr ""
-"Os registros mais antigos são apagados uma vez por dia. E-mails podem ter "
-"dados privados, como links de redefinição de senha."
+msgid "Older entries are deleted once a day. Emails can contain private data such as password reset links."
+msgstr "Os registros mais antigos são apagados uma vez por dia. E-mails podem ter dados privados, como links de redefinição de senha."
 
 #: build/index.js:3
 msgid "Data"
@@ -475,19 +435,12 @@ msgid "Clear settings on deactivation"
 msgstr "Apagar configurações ao desativar"
 
 #: build/index.js:3
-msgid ""
-"All settings and logs will be permanently deleted when the plugin is "
-"deactivated."
-msgstr ""
-"Todas as configurações e logs serão apagados de vez quando o plugin for "
-"desativado."
+msgid "All settings and logs will be permanently deleted when the plugin is deactivated."
+msgstr "Todas as configurações e logs serão apagados de vez quando o plugin for desativado."
 
 #: build/index.js:3
-msgid ""
-"Settings are kept in the database when the plugin is deactivated or updated."
-msgstr ""
-"As configurações continuam no banco de dados quando o plugin é desativado ou "
-"atualizado."
+msgid "Settings are kept in the database when the plugin is deactivated or updated."
+msgstr "As configurações continuam no banco de dados quando o plugin é desativado ou atualizado."
 
 #: build/index.js:3
 msgid "Pending"
@@ -590,12 +543,8 @@ msgid "Could not load logs."
 msgstr "Não foi possível carregar os logs."
 
 #: build/index.js:3
-msgid ""
-"Logging is turned off in the plugin settings. New emails are not being "
-"recorded."
-msgstr ""
-"O registro está desligado nas configurações do plugin. Novos e-mails não "
-"estão sendo registrados."
+msgid "Logging is turned off in the plugin settings. New emails are not being recorded."
+msgstr "O registro está desligado nas configurações do plugin. Novos e-mails não estão sendo registrados."
 
 #: build/index.js:3
 msgid "Search logs"
@@ -613,7 +562,8 @@ msgstr "Status"
 msgid "Refresh"
 msgstr "Atualizar"
 
-#: build/index.js:3 build/index.js:4
+#: build/index.js:3
+#: build/index.js:4
 msgid "Clear logs"
 msgstr "Limpar logs"
 
@@ -639,6 +589,7 @@ msgstr "Anterior"
 
 #. translators: 1: current page, 2: total pages
 #: build/index.js:4
+#, js-format
 msgid "%1$d of %2$d"
 msgstr "%1$d de %2$d"
 
@@ -692,8 +643,7 @@ msgstr "Configurações importadas."
 
 #: build/index.js:4
 msgid "Import succeeded but could not reload settings."
-msgstr ""
-"A importação deu certo, mas não foi possível recarregar as configurações."
+msgstr "A importação deu certo, mas não foi possível recarregar as configurações."
 
 #: build/index.js:3
 msgctxt "heading of the list of emails"
