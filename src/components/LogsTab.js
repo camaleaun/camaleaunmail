@@ -9,8 +9,8 @@ import {
 } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '../api';
-import LogDetail from './LogDetail';
-import { STATUS_LABEL, StatusBadge, formatDate } from './logFormat';
+import LogPreview from './LogPreview';
+import { STATUS_LABEL, StatusBadge, formatListDate, formatSender, parseDate } from './logFormat';
 
 const STATUS_OPTIONS = [
 	{ value: '', label: __( 'All statuses', 'camaleaunmail' ) },
@@ -28,7 +28,7 @@ export default function LogsTab( { loggingEnabled, onNotice } ) {
 	const [ search,     setSearch     ] = useState( '' );
 	const [ query,      setQuery      ] = useState( '' );
 	const [ loading,    setLoading    ] = useState( true );
-	const [ openId,     setOpenId     ] = useState( null );
+	const [ selected,   setSelected   ] = useState( null );
 	const [ confirming, setConfirming ] = useState( false );
 
 	const requestRef = useRef( 0 );
@@ -64,6 +64,21 @@ export default function LogsTab( { loggingEnabled, onNotice } ) {
 	}, [ page, status, query, onNotice ] );
 
 	useEffect( () => { load(); }, [ load ] );
+
+	// Keep an email open: the first one when nothing (or a missing one) is selected.
+	useEffect( () => {
+		if ( loading ) return;
+		if ( ! items.some( item => item.id === selected ) ) {
+			setSelected( items[ 0 ]?.id ?? null );
+		}
+	}, [ items, loading, selected ] );
+
+	function handleDeleted( id ) {
+		const index = items.findIndex( item => item.id === id );
+		// Open the next email in the list (or the previous one at the end).
+		setSelected( ( items[ index + 1 ] ?? items[ index - 1 ] )?.id ?? null );
+		load();
+	}
 
 	async function handleClear() {
 		setConfirming( false );
@@ -119,94 +134,94 @@ export default function LogsTab( { loggingEnabled, onNotice } ) {
 				</div>
 			</div>
 
-			<div className="cam-logs__table-wrap">
-				<table className="cam-logs__table">
-					<thead>
-						<tr>
-							<th scope="col">{ __( 'Date', 'camaleaunmail' ) }</th>
-							<th scope="col">{ __( 'Status', 'camaleaunmail' ) }</th>
-							<th scope="col">{ __( 'To', 'camaleaunmail' ) }</th>
-							<th scope="col">{ __( 'Subject', 'camaleaunmail' ) }</th>
-						</tr>
-					</thead>
-					<tbody>
+			<section className="cam-mail" aria-label={ __( 'Email', 'camaleaunmail' ) }>
+				<aside className="cam-mail__list" aria-label={ __( 'Logged emails', 'camaleaunmail' ) }>
+					<div className="cam-mail__list-header">
+						<h2>{ status ? STATUS_LABEL[ status ] : __( 'Sent', 'camaleaunmail' ) }</h2>
+						<span className="cam-mail__count">{ total }</span>
+					</div>
+
+					<div className="cam-mail__items" role="list">
 						{ items.map( item => (
-							<tr key={ item.id }>
-								<td className="cam-logs__date">{ formatDate( item.created_at ) }</td>
-								<td><StatusBadge status={ item.status } /></td>
-								<td className="cam-logs__to">{ item.to_email }</td>
-								<td className="cam-logs__subject">
-									<button
-										type="button"
-										className="cam-logs__open"
-										onClick={ () => setOpenId( item.id ) }
-									>
+							<div key={ item.id } role="listitem">
+								<button
+									type="button"
+									className={ `cam-mail__item${ item.id === selected ? ' is-selected' : '' }` }
+									aria-pressed={ item.id === selected }
+									onClick={ () => setSelected( item.id ) }
+								>
+									<span className="cam-mail__item-subject">
 										{ item.subject || __( '(no subject)', 'camaleaunmail' ) }
-									</button>
-								</td>
-							</tr>
+									</span>
+									<span className="cam-mail__item-meta">
+										<span className="cam-mail__item-from">{ formatSender( item ) || item.to_email }</span>
+										<time dateTime={ parseDate( item.created_at ).toISOString() }>
+											{ formatListDate( item.created_at ) }
+										</time>
+									</span>
+									{ item.status !== 'sent' && (
+										<span className="cam-mail__item-status">
+											<StatusBadge status={ item.status } />
+										</span>
+									) }
+								</button>
+							</div>
 						) ) }
 						{ ! items.length && ! loading && (
-							<tr>
-								<td colSpan={ 4 } className="cam-logs__empty">
-									{ query || status
-										? __( 'No emails match these filters.', 'camaleaunmail' )
-										: __( 'No emails logged yet.', 'camaleaunmail' )
-									}
-								</td>
-							</tr>
+							<p className="cam-mail__empty">
+								{ query || status
+									? __( 'No emails match these filters.', 'camaleaunmail' )
+									: __( 'No emails logged yet.', 'camaleaunmail' )
+								}
+							</p>
 						) }
-					</tbody>
-				</table>
-				{ loading && <div className="cam-logs__loading"><Spinner /></div> }
-			</div>
+						{ loading && <div className="cam-logs__loading"><Spinner /></div> }
+					</div>
 
-			<div className="cam-logs__footer">
-				<span className="cam-logs__count">
-					{ sprintf(
-						/* translators: %d: number of log entries */
-						__( '%d emails', 'camaleaunmail' ),
-						total
+					{ pages > 1 && (
+						<div className="cam-mail__pagination">
+							<Button
+								variant="tertiary"
+								size="compact"
+								disabled={ page <= 1 }
+								onClick={ () => setPage( page - 1 ) }
+							>
+								{ __( 'Previous', 'camaleaunmail' ) }
+							</Button>
+							<span>
+								{ sprintf(
+									/* translators: 1: current page, 2: total pages */
+									__( '%1$d of %2$d', 'camaleaunmail' ),
+									page,
+									pages
+								) }
+							</span>
+							<Button
+								variant="tertiary"
+								size="compact"
+								disabled={ page >= pages }
+								onClick={ () => setPage( page + 1 ) }
+							>
+								{ __( 'Next', 'camaleaunmail' ) }
+							</Button>
+						</div>
 					) }
-				</span>
-				{ pages > 1 && (
-					<div className="cam-logs__pagination">
-						<Button
-							variant="tertiary"
-							disabled={ page <= 1 }
-							onClick={ () => setPage( page - 1 ) }
-							__next40pxDefaultSize
-						>
-							{ __( 'Previous', 'camaleaunmail' ) }
-						</Button>
-						<span>
-							{ sprintf(
-								/* translators: 1: current page, 2: total pages */
-								__( 'Page %1$d of %2$d', 'camaleaunmail' ),
-								page,
-								pages
-							) }
-						</span>
-						<Button
-							variant="tertiary"
-							disabled={ page >= pages }
-							onClick={ () => setPage( page + 1 ) }
-							__next40pxDefaultSize
-						>
-							{ __( 'Next', 'camaleaunmail' ) }
-						</Button>
+				</aside>
+
+				{ selected ? (
+					<LogPreview
+						key={ selected }
+						id={ selected }
+						onChanged={ load }
+						onDeleted={ handleDeleted }
+						onNotice={ onNotice }
+					/>
+				) : (
+					<div className="cam-mail__preview cam-mail__preview--empty">
+						<p>{ __( 'Select an email to read it.', 'camaleaunmail' ) }</p>
 					</div>
 				) }
-			</div>
-
-			{ openId && (
-				<LogDetail
-					id={ openId }
-					onClose={ () => setOpenId( null ) }
-					onChanged={ load }
-					onNotice={ onNotice }
-				/>
-			) }
+			</section>
 
 			<ConfirmDialog
 				isOpen={ confirming }

@@ -16,9 +16,31 @@ export function StatusBadge( { status } ) {
 	);
 }
 
+// The API returns GMT without a zone; mark it as UTC so the browser converts it.
+export function parseDate( iso ) {
+	return new Date( /[zZ]|[+-]\d\d:?\d\d$/.test( iso ) ? iso : iso + 'Z' );
+}
+
 export function formatDate( iso ) {
 	if ( ! iso ) return '';
-	// The API returns GMT without a zone; mark it as UTC so the browser converts it.
-	const date = new Date( /[zZ]|[+-]\d\d:?\d\d$/.test( iso ) ? iso : iso + 'Z' );
-	return date.toLocaleString();
+	return parseDate( iso ).toLocaleString( undefined, { dateStyle: 'medium', timeStyle: 'short' } );
+}
+
+// List time: the hour for today's emails, the date otherwise.
+export function formatListDate( iso ) {
+	if ( ! iso ) return '';
+	const date = parseDate( iso );
+	const now  = new Date();
+	if ( date.toDateString() === now.toDateString() ) {
+		return date.toLocaleTimeString( undefined, { timeStyle: 'short' } );
+	}
+	return date.toLocaleDateString( undefined, {
+		month: 'short',
+		day:   'numeric',
+		...( date.getFullYear() !== now.getFullYear() && { year: 'numeric' } ),
+	} );
+}
+
+export function formatSender( log ) {
+	return log.from_name ? `${ log.from_name } <${ log.from_email }>` : log.from_email;
 }
