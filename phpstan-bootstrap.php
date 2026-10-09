@@ -5,7 +5,7 @@
 
 define( 'ABSPATH', '/tmp/wordpress/' );
 define( 'WPINC', 'wp-includes' );
-define( 'CAMALEAUNMAIL_VERSION', '0.2.0' );
+define( 'CAMALEAUNMAIL_VERSION', '0.2.1' );
 define( 'CAMALEAUNMAIL_PATH', __DIR__ . '/' );
 define( 'CAMALEAUNMAIL_URL', 'https://example.com/wp-content/plugins/camaleaunmail/' );
 
