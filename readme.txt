@@ -4,7 +4,7 @@ Tags:
 Requires at least: 6.9
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,8 +34,8 @@ Blocked emails are recorded in the log with the status "Blocked".
 
 == Changelog ==
 
-= 0.2.1 =
-* Changed: the Logs tab is a mail panel, like WordPress Playground's: the emails on the left and the selected one on the right, instead of a table and a modal.
+= 0.3.0 =
+* New: the Logs tab is a mail panel, like WordPress Playground's: the emails on the left and the selected one on the right, instead of a table and a modal.
 
 = 0.2.0 =
 * New: Logs tab that records every email sent, failed or blocked, with its content, and lets you resend or delete it.

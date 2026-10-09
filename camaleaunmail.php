@@ -3,7 +3,7 @@
  * Plugin Name:       Camaleaunmail
  * Plugin URI:        https://github.com/camaleaun/camaleaunmail
  * Description:       PLUGIN DESCRIPTION HERE
- * Version:           0.2.1
+ * Version:           0.3.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * Tested up to:      7.0
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CAMALEAUNMAIL_VERSION', '0.2.1' );
+define( 'CAMALEAUNMAIL_VERSION', '0.3.0' );
 define( 'CAMALEAUNMAIL_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CAMALEAUNMAIL_URL', plugin_dir_url( __FILE__ ) );
 
