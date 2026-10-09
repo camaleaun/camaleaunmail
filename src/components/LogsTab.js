@@ -7,7 +7,7 @@ import {
 	Spinner,
 	__experimentalConfirmDialog as ConfirmDialog,
 } from '@wordpress/components';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import apiFetch from '../api';
 import LogPreview from './LogPreview';
 import { STATUS_LABEL, StatusBadge, formatListDate, formatSender, parseDate } from './logFormat';
@@ -137,7 +137,7 @@ export default function LogsTab( { loggingEnabled, onNotice } ) {
 			<section className="cam-mail" aria-label={ __( 'Email', 'camaleaunmail' ) }>
 				<aside className="cam-mail__list" aria-label={ __( 'Logged emails', 'camaleaunmail' ) }>
 					<div className="cam-mail__list-header">
-						<h2>{ status ? STATUS_LABEL[ status ] : __( 'Sent', 'camaleaunmail' ) }</h2>
+						<h2>{ status ? STATUS_LABEL[ status ] : _x( 'Sent', 'heading of the list of emails', 'camaleaunmail' ) }</h2>
 						<span className="cam-mail__count">{ total }</span>
 					</div>
 

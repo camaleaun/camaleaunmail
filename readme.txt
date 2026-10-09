@@ -1,6 +1,6 @@
 === Camaleaunmail ===
-Contributors: (this should be a list of wordpress.org userid's)
-Tags:
+Contributors: camaleaun
+Tags: smtp, email, mail, log, email log
 Requires at least: 6.9
 Tested up to: 7.0
 Requires PHP: 7.4
@@ -8,11 +8,11 @@ Stable tag: 0.3.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-PLUGIN DESCRIPTION HERE
+Sends WordPress email through SMTP, logs every email and blocks sending on local sites.
 
 == Description ==
 
-PLUGIN DESCRIPTION HERE
+Camaleaunmail sends WordPress email through any SMTP server, records every email in a log you can read, resend or delete, and keeps local and staging copies of a site from mailing real people.
 
 == Installation ==
 
@@ -33,6 +33,12 @@ Sending is also disabled on local sites by default ("Disable on local sites" in 
 Blocked emails are recorded in the log with the status "Blocked".
 
 == Changelog ==
+
+= 0.4.0 =
+* New: Brazilian Portuguese (pt_BR) translation, shipped as a language pack and installed with the plugin updates.
+* New: `bin/release.php` release command (version bump, translations, tag) and a Language workflow for the language packs.
+* Fix: email dates in the Logs tab follow the site's date and time formats and time zone (Settings > General).
+* Plugin header and readme filled in (description, author).
 
 = 0.3.0 =
 * New: the Logs tab is a mail panel, like WordPress Playground's: the emails on the left and the selected one on the right, instead of a table and a modal.

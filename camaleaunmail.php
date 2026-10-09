@@ -2,13 +2,13 @@
 /**
  * Plugin Name:       Camaleaunmail
  * Plugin URI:        https://github.com/camaleaun/camaleaunmail
- * Description:       PLUGIN DESCRIPTION HERE
+ * Description:       Sends WordPress email through SMTP, logs every email and blocks sending on local sites.
  * Version:           0.3.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * Tested up to:      7.0
- * Author:            YOUR NAME HERE
- * Author URI:        YOUR SITE HERE
+ * Author:            Gilberto Tavares
+ * Author URI:        https://github.com/camaleaun
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       camaleaunmail
