@@ -176,16 +176,129 @@ class Settings {
 	 */
 	public static function defaults(): array {
 		return array(
-			'transport'       => 'default',
-			'smtp_host'       => '',
-			'smtp_port'       => 25,
-			'smtp_encryption' => 'none',
-			'smtp_auth'       => false,
-			'smtp_username'   => '',
-			'smtp_password'   => '',
-			'from_email'      => '',
-			'from_name'       => '',
+			'transport'        => 'default',
+			'smtp_host'        => '',
+			'smtp_port'        => 25,
+			'smtp_encryption'  => 'none',
+			'smtp_auth'        => false,
+			'smtp_username'    => '',
+			'smtp_password'    => '',
+			'from_email'       => '',
+			'from_name'        => '',
+			'sending_disabled' => false,
+			'disable_on_local' => true,
 		);
+	}
+
+	/**
+	 * A local address: http(s)://localhost, 127.0.0.1 or a .local or .test
+	 * host, with or without a port.
+	 *
+	 * @var string
+	 */
+	const LOCAL_PATTERN = '#^https?://(localhost|127\.0\.0\.1|[a-z0-9.-]+\.(local|test))(:\d+)?(/|$)#i';
+
+	/**
+	 * Option key for plugin-level settings.
+	 *
+	 * @var string
+	 */
+	const PLUGIN_OPTION_KEY = 'camaleaunmail_plugin_settings';
+
+	/**
+	 * Allowed values for log_retention_days. 0 keeps logs forever.
+	 *
+	 * @var int[]
+	 */
+	const LOG_RETENTION_DAYS = array( 0, 7, 14, 30, 60, 90, 365 );
+
+	/**
+	 * Default values for plugin-level settings.
+	 *
+	 * @since  0.2.0
+	 * @return array<string,mixed>
+	 */
+	public static function plugin_defaults(): array {
+		return array(
+			'clear_on_deactivate' => false,
+			'export_format'       => 'yaml',
+			'include_schema'      => true,
+			'json_pretty_print'   => true,
+			'json_indent_type'    => 'tab',
+			'json_indent'         => 4,
+			'logging_enabled'     => true,
+			'log_retention_days'  => 30,
+		);
+	}
+
+	/**
+	 * Return plugin-level settings with defaults applied.
+	 *
+	 * @since  0.2.0
+	 * @return array<string,mixed>
+	 */
+	public static function plugin_settings(): array {
+		$saved = get_option( self::PLUGIN_OPTION_KEY, array() );
+		return array_merge( self::plugin_defaults(), is_array( $saved ) ? $saved : array() );
+	}
+
+	/**
+	 * Whether outgoing mail is blocked (recorded in the log only).
+	 *
+	 * The CAMALEAUNMAIL_DISABLE_SENDING constant forces it on, e.g. for staging.
+	 *
+	 * @since  0.2.0
+	 * @return bool
+	 */
+	public static function sending_disabled(): bool {
+		return self::sending_disabled_by_constant()
+			|| ! empty( self::get()['sending_disabled'] )
+			|| self::sending_disabled_by_local();
+	}
+
+	/**
+	 * Whether sending is off because the site is local and the setting says so.
+	 *
+	 * @since  0.2.0
+	 * @return bool
+	 */
+	public static function sending_disabled_by_local(): bool {
+		return ! empty( self::get()['disable_on_local'] ) && self::is_local();
+	}
+
+	/**
+	 * Whether an address is local (LOCAL_PATTERN). The site is local too
+	 * when its environment type is "local", whatever its address.
+	 *
+	 * @since  0.2.0
+	 * @param  string|null $url Address; the site's by default.
+	 * @return bool
+	 */
+	public static function is_local( ?string $url = null ): bool {
+		if ( null === $url && function_exists( 'wp_get_environment_type' ) && 'local' === wp_get_environment_type() ) {
+			return true;
+		}
+		return 1 === preg_match( self::LOCAL_PATTERN, null === $url ? (string) home_url( '/' ) : $url );
+	}
+
+	/**
+	 * Whether the CAMALEAUNMAIL_DISABLE_SENDING constant forces sending off.
+	 *
+	 * @since  0.2.0
+	 * @return bool
+	 */
+	public static function sending_disabled_by_constant(): bool {
+		return defined( 'CAMALEAUNMAIL_DISABLE_SENDING' ) && CAMALEAUNMAIL_DISABLE_SENDING;
+	}
+
+	/**
+	 * Whether emails are recorded in the log.
+	 *
+	 * @since  0.2.0
+	 * @return bool
+	 */
+	public static function logging_enabled(): bool {
+		return ! empty( self::plugin_settings()['logging_enabled'] );
 	}
 
 	/**
@@ -215,6 +328,9 @@ class Settings {
 		$clean['smtp_password'] = $data['smtp_password'] ?? '';
 		$clean['from_email']    = sanitize_email( $data['from_email'] ?? '' );
 		$clean['from_name']     = sanitize_text_field( $data['from_name'] ?? '' );
+
+		$clean['sending_disabled'] = (bool) ( $data['sending_disabled'] ?? false );
+		$clean['disable_on_local'] = (bool) ( $data['disable_on_local'] ?? true );
 
 		return $clean;
 	}

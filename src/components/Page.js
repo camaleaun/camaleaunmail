@@ -8,6 +8,7 @@ export default function Page( {
 	activeTab,
 	onSelectTab,
 	saveState,
+	sendingDisabled,
 	transport,
 	canExport,
 	exportFormat,
@@ -19,6 +20,8 @@ export default function Page( {
 } ) {
 	const fileRef = useRef( null );
 	const isMain  = page !== 'plugin-settings';
+	// Export, Import and Auto save belong to the settings tabs, not to Logs.
+	const isLogs  = isMain && activeTab === 'logs';
 
 	// ── Export ────────────────────────────────────────────────────────────────
 	function handleExport() {
@@ -91,6 +94,12 @@ export default function Page( {
 					) }
 
 					<div className="cam-header-actions">
+						{ sendingDisabled && (
+							<span className="cam-sending-badge">
+								{ __( 'Sending disabled', 'camaleaunmail' ) }
+							</span>
+						) }
+
 						{ /* Hidden file input — always in DOM so ref works */ }
 						<input
 							ref={ fileRef }
@@ -100,7 +109,7 @@ export default function Page( {
 							onChange={ handleFileChange }
 						/>
 
-						{ isMain && (
+						{ isMain && ! isLogs && (
 							<Button
 								variant="tertiary"
 								disabled={ ! canExport }
@@ -111,7 +120,7 @@ export default function Page( {
 							</Button>
 						) }
 
-						{ isMain && (
+						{ isMain && ! isLogs && (
 							<Button
 								variant="tertiary"
 								onClick={ handleImportClick }
@@ -133,7 +142,7 @@ export default function Page( {
 							/>
 						) }
 
-						{ isMain && (
+						{ isMain && ! isLogs && (
 							<Button
 								variant="tertiary"
 								disabled
@@ -163,7 +172,7 @@ export default function Page( {
 				) }
 			</div>
 
-			<div className="cam-page__body">
+			<div className={ `cam-page__body${ isLogs ? ' cam-page__body--wide' : '' }` }>
 				{ children }
 			</div>
 

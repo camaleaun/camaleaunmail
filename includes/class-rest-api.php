@@ -17,6 +17,11 @@ defined( 'ABSPATH' ) || exit;
  *  GET  /settings        → return current settings (passwords redacted)
  *  POST /settings        → save settings
  *  POST /test-send       → send a test email
+ *  GET  /logs            → list log entries
+ *  DELETE /logs          → delete every log entry
+ *  GET  /logs/{id}       → one log entry with its full content
+ *  DELETE /logs/{id}     → delete one log entry
+ *  POST /logs/{id}/resend → send a logged email again
  *
  * @since 0.1.0
  */
@@ -102,6 +107,71 @@ class RestApi {
 
 		register_rest_route(
 			self::NAMESPACE,
+			'/logs',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( static::class, 'get_logs' ),
+					'permission_callback' => array( static::class, 'check_permission' ),
+					'args'                => array(
+						'page'     => array(
+							'type'    => 'integer',
+							'default' => 1,
+							'minimum' => 1,
+						),
+						'per_page' => array(
+							'type'    => 'integer',
+							'default' => 20,
+							'minimum' => 1,
+							'maximum' => 100,
+						),
+						'status'   => array(
+							'type' => 'string',
+							'enum' => array_merge( array( '' ), Logs::STATUSES ),
+						),
+						'search'   => array(
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+						),
+					),
+				),
+				array(
+					'methods'             => \WP_REST_Server::DELETABLE,
+					'callback'            => array( static::class, 'clear_logs' ),
+					'permission_callback' => array( static::class, 'check_permission' ),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/logs/(?P<id>\d+)',
+			array(
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array( static::class, 'get_log' ),
+					'permission_callback' => array( static::class, 'check_permission' ),
+				),
+				array(
+					'methods'             => \WP_REST_Server::DELETABLE,
+					'callback'            => array( static::class, 'delete_log' ),
+					'permission_callback' => array( static::class, 'check_permission' ),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/logs/(?P<id>\d+)/resend',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( static::class, 'resend_log' ),
+				'permission_callback' => array( static::class, 'check_permission' ),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
 			'/import',
 			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
@@ -142,6 +212,10 @@ class RestApi {
 		$redacted = self::redact( $s );
 		// Tell the UI whether there is anything non-default to export.
 		$redacted['_has_custom_settings'] = Settings::has_custom_settings();
+		// Tell the UI when wp-config.php forces sending off.
+		$redacted['_sending_disabled_by_constant'] = Settings::sending_disabled_by_constant();
+		// Tell the UI whether this site counts as local.
+		$redacted['_is_local'] = Settings::is_local();
 		return rest_ensure_response( $redacted );
 	}
 
@@ -231,8 +305,9 @@ class RestApi {
 
 		return rest_ensure_response(
 			array(
-				'sent' => true,
-				'to'   => $to,
+				'sent'    => true,
+				'blocked' => Settings::sending_disabled(),
+				'to'      => $to,
 			)
 		);
 	}
@@ -242,7 +317,7 @@ class RestApi {
 	 *
 	 * @var string
 	 */
-	const PLUGIN_OPTION_KEY = 'camaleaunmail_plugin_settings';
+	const PLUGIN_OPTION_KEY = Settings::PLUGIN_OPTION_KEY;
 
 	/**
 	 * Return plugin-level settings.
@@ -253,16 +328,7 @@ class RestApi {
 	 * @return \WP_REST_Response
 	 */
 	public static function get_plugin_settings(): \WP_REST_Response {
-		$defaults = array(
-			'clear_on_deactivate' => false,
-			'export_format'       => 'yaml',
-			'include_schema'      => true,
-			'json_pretty_print'   => true,
-			'json_indent_type'    => 'tab',
-			'json_indent'         => 4,
-		);
-		$saved    = get_option( self::PLUGIN_OPTION_KEY, array() );
-		return rest_ensure_response( array_merge( $defaults, is_array( $saved ) ? $saved : array() ) );
+		return rest_ensure_response( Settings::plugin_settings() );
 	}
 
 	/**
@@ -290,6 +356,10 @@ class RestApi {
 			'json_indent'         => in_array( (int) ( $body['json_indent'] ?? 4 ), array( 2, 4, 8 ), true )
 				? (int) $body['json_indent']
 				: 4,
+			'logging_enabled'     => isset( $body['logging_enabled'] ) ? (bool) $body['logging_enabled'] : true,
+			'log_retention_days'  => in_array( (int) ( $body['log_retention_days'] ?? 30 ), Settings::LOG_RETENTION_DAYS, true )
+				? (int) $body['log_retention_days']
+				: 30,
 		);
 		update_option( self::PLUGIN_OPTION_KEY, $clean );
 		return rest_ensure_response( array( 'saved' => true ) );
@@ -378,9 +448,121 @@ class RestApi {
 		return rest_ensure_response( array( 'imported' => true ) );
 	}
 
+	/**
+	 * GET /logs
+	 *
+	 * Totals go in the X-WP-Total and X-WP-TotalPages headers, like core routes.
+	 *
+	 * @since  0.2.0
+	 * @param  \WP_REST_Request $request Incoming request.
+	 * @return \WP_REST_Response
+	 */
+	public static function get_logs( \WP_REST_Request $request ): \WP_REST_Response {
+		$result = Logs::query(
+			array(
+				'page'     => $request->get_param( 'page' ),
+				'per_page' => $request->get_param( 'per_page' ),
+				'status'   => $request->get_param( 'status' ),
+				'search'   => $request->get_param( 'search' ),
+			)
+		);
+
+		$response = rest_ensure_response( $result['items'] );
+		$response->header( 'X-WP-Total', (string) $result['total'] );
+		$response->header( 'X-WP-TotalPages', (string) $result['pages'] );
+		return $response;
+	}
+
+	/**
+	 * GET /logs/{id}
+	 *
+	 * @since  0.2.0
+	 * @param  \WP_REST_Request $request Incoming request.
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public static function get_log( \WP_REST_Request $request ) {
+		$log = Logs::get( (int) $request['id'] );
+		if ( ! $log ) {
+			return self::log_not_found();
+		}
+		return rest_ensure_response( $log );
+	}
+
+	/**
+	 * DELETE /logs/{id}
+	 *
+	 * @since  0.2.0
+	 * @param  \WP_REST_Request $request Incoming request.
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public static function delete_log( \WP_REST_Request $request ) {
+		if ( ! Logs::delete( array( (int) $request['id'] ) ) ) {
+			return self::log_not_found();
+		}
+		return rest_ensure_response( array( 'deleted' => true ) );
+	}
+
+	/**
+	 * DELETE /logs
+	 *
+	 * @since  0.2.0
+	 * @return \WP_REST_Response
+	 */
+	public static function clear_logs(): \WP_REST_Response {
+		Logs::truncate();
+		return rest_ensure_response( array( 'deleted' => true ) );
+	}
+
+	/**
+	 * POST /logs/{id}/resend
+	 *
+	 * Sends the logged email again through wp_mail(), which logs it as a new entry.
+	 * Attachments are not resent: only their file names are stored.
+	 *
+	 * @since  0.2.0
+	 * @param  \WP_REST_Request $request Incoming request.
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public static function resend_log( \WP_REST_Request $request ) {
+		$log = Logs::get( (int) $request['id'] );
+		if ( ! $log ) {
+			return self::log_not_found();
+		}
+
+		$headers = '' !== $log['headers'] ? explode( "\n", (string) $log['headers'] ) : array();
+		$sent    = wp_mail( (string) $log['to_email'], (string) $log['subject'], (string) $log['message'], $headers );
+
+		if ( ! $sent ) {
+			global $phpmailer;
+			$error_info = isset( $phpmailer ) && ! empty( $phpmailer->ErrorInfo ) ? $phpmailer->ErrorInfo : '';
+			return new \WP_Error(
+				'send_failed',
+				/* translators: %s: PHPMailer error message */
+				sprintf( __( 'Email could not be sent. %s', 'camaleaunmail' ), $error_info ),
+				array( 'status' => 500 )
+			);
+		}
+
+		return rest_ensure_response(
+			array(
+				'sent'    => true,
+				'blocked' => Settings::sending_disabled(),
+			)
+		);
+	}
+
 	// -------------------------------------------------------------------------
 	// Helpers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Error for a log id that does not exist.
+	 *
+	 * @return \WP_Error
+	 */
+	private static function log_not_found(): \WP_Error {
+		return new \WP_Error( 'log_not_found', __( 'Log entry not found.', 'camaleaunmail' ), array( 'status' => 404 ) );
+	}
 
 	/**
 	 * Redact sensitive fields before returning them to the UI.

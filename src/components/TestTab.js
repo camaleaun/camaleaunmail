@@ -22,7 +22,7 @@ const DEFAULT_HTML = `<h1>Test email</h1>
 <p>This is a <strong>test email</strong> sent from WordPress.</p>
 <p>If you received it, your mail transport is configured correctly.</p>`;
 
-export default function TestTab( { transport } ) {
+export default function TestTab( { transport, sendingDisabled } ) {
 	const [ to,      setTo      ] = useState( '' );
 	const [ subject, setSubject ] = useState( 'Test email from WordPress' );
 	const [ mode,    setMode    ] = useState( 'plain' ); // 'plain' | 'html'
@@ -48,7 +48,10 @@ export default function TestTab( { transport } ) {
 				method: 'POST',
 				data:   { to, subject, body, mode },
 			} );
-			setResult( {
+			setResult( res.blocked ? {
+				type:    'warning',
+				message: __( 'Not sent: sending is disabled. Recorded in Logs.', 'camaleaunmail' ),
+			} : {
 				type:    'success',
 				message: sprintf(
 					/* translators: %s: recipient email */
@@ -69,7 +72,9 @@ export default function TestTab( { transport } ) {
 	return (
 		<div className="cam-tab-body">
 			<p className="cam-tab-description">
-				{ transport === 'default'
+				{ sendingDisabled
+					? __( 'Sending is disabled: the test email will only be recorded in Logs.', 'camaleaunmail' )
+					: transport === 'default'
 					? __( 'No transport configured. Select SMTP or Google Mail in the Transport tab first.', 'camaleaunmail' )
 					: sprintf(
 						/* translators: %s: transport label */
@@ -145,7 +150,7 @@ export default function TestTab( { transport } ) {
 					<Button
 						variant="primary"
 						isBusy={ sending }
-						disabled={ sending || ! to || transport === 'default' }
+						disabled={ sending || ! to || ( transport === 'default' && ! sendingDisabled ) }
 						onClick={ handleSend }
 						__next40pxDefaultSize
 					>

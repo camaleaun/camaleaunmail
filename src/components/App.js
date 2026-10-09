@@ -7,18 +7,20 @@ import TransportTab from './TransportTab';
 import SenderTab from './SenderTab';
 import TestTab from './TestTab';
 import PluginSettingsTab from './PluginSettingsTab';
+import LogsTab from './LogsTab';
 
 const TABS = [
 	{ id: 'transport', label: __( 'Transport', 'camaleaunmail' ) },
 	{ id: 'sender',    label: __( 'Sender',    'camaleaunmail' ) },
 	{ id: 'test',      label: __( 'Test',      'camaleaunmail' ) },
+	{ id: 'logs',      label: __( 'Logs',      'camaleaunmail' ) },
 ];
 
 // Save after this much inactivity (no field changes).
 const IDLE_DELAY = 3000; // ms
 
 export default function App() {
-	const TAB_IDS    = [ 'transport', 'sender', 'test' ];
+	const TAB_IDS    = TABS.map( t => t.id );
 	const hashToTab  = ( h ) => TAB_IDS.includes( h.replace( '#', '' ) ) ? h.replace( '#', '' ) : 'transport';
 	const tabToHash  = ( t ) => t === 'transport' ? '' : '#' + t;
 
@@ -118,6 +120,10 @@ export default function App() {
 			.catch( () => setNotice( { type: 'error', message: __( 'Import succeeded but could not reload settings.', 'camaleaunmail' ) } ) );
 	}, [] );
 
+	const sendingDisabled = !! settings?.sending_disabled
+		|| !! settings?._sending_disabled_by_constant
+		|| ( settings?.disable_on_local !== false && !! settings?._is_local );
+
 	if ( ! settings ) {
 		return <div className="cam-loading"><Spinner /></div>;
 	}
@@ -136,6 +142,7 @@ export default function App() {
 				setTab( t );
 			} }
 			saveState={ saveState }
+			sendingDisabled={ sendingDisabled }
 			transport={ settings.transport }
 			canExport={ !! settings._has_custom_settings || settings.transport !== 'default' }
 			exportFormat={ pluginSettings.export_format ?? 'yaml' }
@@ -181,7 +188,13 @@ export default function App() {
 						<SenderTab settings={ settings } onChange={ set } onBlur={ onBlur } />
 					) }
 					{ tab === 'test' && (
-						<TestTab transport={ settings.transport } />
+						<TestTab transport={ settings.transport } sendingDisabled={ sendingDisabled } />
+					) }
+					{ tab === 'logs' && (
+						<LogsTab
+							loggingEnabled={ pluginSettings.logging_enabled !== false }
+							onNotice={ setNotice }
+						/>
 					) }
 				</>
 			) }

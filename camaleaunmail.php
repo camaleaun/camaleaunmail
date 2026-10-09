@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name:       Camaleaunmail
- * Plugin URI:        PLUGIN SITE HERE
+ * Plugin URI:        https://github.com/camaleaun/camaleaunmail
  * Description:       PLUGIN DESCRIPTION HERE
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 6.9
  * Requires PHP:      7.4
  * Tested up to:      7.0
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'CAMALEAUNMAIL_VERSION', '0.1.0' );
+define( 'CAMALEAUNMAIL_VERSION', '0.2.0' );
 define( 'CAMALEAUNMAIL_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CAMALEAUNMAIL_URL', plugin_dir_url( __FILE__ ) );
 
@@ -46,13 +46,23 @@ add_action(
 	}
 );
 
+register_activation_hook(
+	__FILE__,
+	function () {
+		\Camaleaunmail\Logs::install();
+	}
+);
+
 register_deactivation_hook(
 	__FILE__,
 	function () {
+		\Camaleaunmail\Logs::unschedule_purge();
+
 		$plugin_settings = get_option( 'camaleaunmail_plugin_settings', array() );
 		if ( ! empty( $plugin_settings['clear_on_deactivate'] ) ) {
 			delete_option( 'camaleaunmail_settings' );
 			delete_option( 'camaleaunmail_plugin_settings' );
+			\Camaleaunmail\Logs::uninstall();
 		}
 	}
 );
