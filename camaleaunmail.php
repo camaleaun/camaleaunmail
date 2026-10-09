@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Camaleaunmail
- * Plugin URI:        PLUGIN SITE HERE
+ * Plugin URI:        https://github.com/camaleaun/camaleaunmail
  * Description:       PLUGIN DESCRIPTION HERE
  * Version:           0.2.0
  * Requires at least: 6.9
