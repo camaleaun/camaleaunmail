@@ -214,6 +214,8 @@ class RestApi {
 		$redacted['_has_custom_settings'] = Settings::has_custom_settings();
 		// Tell the UI when wp-config.php forces sending off.
 		$redacted['_sending_disabled_by_constant'] = Settings::sending_disabled_by_constant();
+		// Tell the UI whether this site counts as local.
+		$redacted['_is_local'] = Settings::is_local();
 		return rest_ensure_response( $redacted );
 	}
 

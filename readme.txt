@@ -28,6 +28,8 @@ To block all outgoing mail (for staging or local copies of a site), turn on "Dis
 
 `define( 'CAMALEAUNMAIL_DISABLE_SENDING', true );`
 
+Sending is also disabled on local sites by default ("Disable on local sites" in the Transport tab): addresses on localhost, 127.0.0.1, .local and .test, and sites with the "local" environment type. Turn it off to send from a local site.
+
 Blocked emails are recorded in the log with the status "Blocked".
 
 == Changelog ==
@@ -35,6 +37,7 @@ Blocked emails are recorded in the log with the status "Blocked".
 = 0.2.0 =
 * New: Logs tab that records every email sent, failed or blocked, with its content, and lets you resend or delete it.
 * New: Disable sending, so emails are only recorded in the log. Can be forced with the `CAMALEAUNMAIL_DISABLE_SENDING` constant.
+* New: Disable on local sites, on by default: no email leaves localhost, 127.0.0.1, .local, .test or a "local" environment.
 * New: Log retention (30 days by default) and an option to turn logging off.
 * New: `wp camaleaunmail logs list` and `wp camaleaunmail logs purge` commands.
 

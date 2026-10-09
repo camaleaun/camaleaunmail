@@ -120,7 +120,9 @@ export default function App() {
 			.catch( () => setNotice( { type: 'error', message: __( 'Import succeeded but could not reload settings.', 'camaleaunmail' ) } ) );
 	}, [] );
 
-	const sendingDisabled = !! settings?.sending_disabled || !! settings?._sending_disabled_by_constant;
+	const sendingDisabled = !! settings?.sending_disabled
+		|| !! settings?._sending_disabled_by_constant
+		|| ( settings?.disable_on_local !== false && !! settings?._is_local );
 
 	if ( ! settings ) {
 		return <div className="cam-loading"><Spinner /></div>;

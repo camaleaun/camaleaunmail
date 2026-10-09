@@ -50,6 +50,10 @@
     "sending_disabled": {
       "type": "boolean",
       "description": "Block all outgoing mail; emails are only recorded in the log."
+    },
+    "disable_on_local": {
+      "type": "boolean",
+      "description": "Block outgoing mail on local sites (localhost, 127.0.0.1, .local, .test, or the \"local\" environment type)."
     }
   }
 }

@@ -13,6 +13,7 @@ use Brain\Monkey;
 use Brain\Monkey\Functions;
 use Camaleaunmail\Logs;
 use Camaleaunmail\MailLogger;
+use Camaleaunmail\Settings;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -165,6 +166,37 @@ class MailLoggerTest extends TestCase {
 
 		MailLogger::failed( new \WP_Error( 'wp_mail_failed', 'nope' ) );
 		$this->assertSame( 'failed', $this->wpdb->rows[1]['status'] );
+	}
+
+	public function test_local_addresses(): void {
+		foreach ( array( 'http://localhost:8884', 'https://127.0.0.1/', 'http://axell.local', 'https://axell.test:8443/', 'http://dev.axell.local/site/' ) as $url ) {
+			$this->assertTrue( Settings::is_local( $url ), $url );
+		}
+		foreach ( array( 'https://axell.com.br', 'http://localhost.com.br', 'http://127.0.0.10', 'https://axell.local.com.br', 'http://.local' ) as $url ) {
+			$this->assertFalse( Settings::is_local( $url ), $url );
+		}
+	}
+
+	public function test_local_environment_is_local_whatever_the_address(): void {
+		$this->assertFalse( Settings::is_local() );
+
+		Functions\when( 'wp_get_environment_type' )->justReturn( 'local' );
+		$this->assertTrue( Settings::is_local() );
+	}
+
+	public function test_local_site_blocks_by_default(): void {
+		Functions\when( 'home_url' )->justReturn( 'http://localhost:8884/' );
+
+		$this->assertTrue( MailLogger::pre_wp_mail( null, $this->atts() ) );
+		$this->assertSame( 'blocked', $this->wpdb->rows[1]['status'] );
+	}
+
+	public function test_local_site_sends_when_the_option_is_off(): void {
+		Functions\when( 'home_url' )->justReturn( 'http://localhost:8884/' );
+		$this->settings['disable_on_local'] = false;
+
+		$this->assertNull( MailLogger::pre_wp_mail( null, $this->atts() ) );
+		$this->assertSame( 'pending', $this->wpdb->rows[1]['status'] );
 	}
 
 	public function test_build_query_filters_and_paginates(): void {

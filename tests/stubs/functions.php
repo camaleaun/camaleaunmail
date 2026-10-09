@@ -94,3 +94,5 @@ function wp_basename( string $path, string $suffix = '' ): string { return basen
 function wp_parse_url( string $url, int $component = -1 ) { return parse_url( $url, $component ); }
 function network_home_url( string $path = '', $scheme = null ): string { return 'http://www.example.com' . $path; }
 function mysql_to_rfc3339( string $date_string ): string { return str_replace( ' ', 'T', $date_string ); }
+function home_url( string $path = '', $scheme = null ): string { return 'https://example.com' . $path; }
+function wp_get_environment_type(): string { return 'production'; }

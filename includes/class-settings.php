@@ -186,8 +186,17 @@ class Settings {
 			'from_email'       => '',
 			'from_name'        => '',
 			'sending_disabled' => false,
+			'disable_on_local' => true,
 		);
 	}
+
+	/**
+	 * A local address: http(s)://localhost, 127.0.0.1 or a .local or .test
+	 * host, with or without a port.
+	 *
+	 * @var string
+	 */
+	const LOCAL_PATTERN = '#^https?://(localhost|127\.0\.0\.1|[a-z0-9.-]+\.(local|test))(:\d+)?(/|$)#i';
 
 	/**
 	 * Option key for plugin-level settings.
@@ -242,7 +251,34 @@ class Settings {
 	 * @return bool
 	 */
 	public static function sending_disabled(): bool {
-		return self::sending_disabled_by_constant() || ! empty( self::get()['sending_disabled'] );
+		return self::sending_disabled_by_constant()
+			|| ! empty( self::get()['sending_disabled'] )
+			|| self::sending_disabled_by_local();
+	}
+
+	/**
+	 * Whether sending is off because the site is local and the setting says so.
+	 *
+	 * @since  0.2.0
+	 * @return bool
+	 */
+	public static function sending_disabled_by_local(): bool {
+		return ! empty( self::get()['disable_on_local'] ) && self::is_local();
+	}
+
+	/**
+	 * Whether an address is local (LOCAL_PATTERN). The site is local too
+	 * when its environment type is "local", whatever its address.
+	 *
+	 * @since  0.2.0
+	 * @param  string|null $url Address; the site's by default.
+	 * @return bool
+	 */
+	public static function is_local( ?string $url = null ): bool {
+		if ( null === $url && function_exists( 'wp_get_environment_type' ) && 'local' === wp_get_environment_type() ) {
+			return true;
+		}
+		return 1 === preg_match( self::LOCAL_PATTERN, null === $url ? (string) home_url( '/' ) : $url );
 	}
 
 	/**
@@ -294,6 +330,7 @@ class Settings {
 		$clean['from_name']     = sanitize_text_field( $data['from_name'] ?? '' );
 
 		$clean['sending_disabled'] = (bool) ( $data['sending_disabled'] ?? false );
+		$clean['disable_on_local'] = (bool) ( $data['disable_on_local'] ?? true );
 
 		return $clean;
 	}
